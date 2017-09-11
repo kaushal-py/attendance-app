@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "463949737428",
+    "firebase_url": "https://kbstudios-attendance.firebaseio.com",
+    "project_id": "kbstudios-attendance",
+    "storage_bucket": "kbstudios-attendance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463949737428:android:10f4e4e06ee9dc89",
+        "android_client_info": {
+          "package_name": "com.dev.kbstudios.kbstudiosattendance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463949737428-ilbhfkvggbr3jv24537b7n13rd1e2rht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev.kbstudios.kbstudiosattendance",
+            "certificate_hash": "cea0bb2c4527664554de48e3c863b0c19f94315f"
+          }
+        },
+        {
+          "client_id": "463949737428-s1ehe9nkvjd2i0gj0lqge1k5fhr5en47.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkWeFKFPx931ObeiuoADyelJXEcq--5Xw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463949737428-s1ehe9nkvjd2i0gj0lqge1k5fhr5en47.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
