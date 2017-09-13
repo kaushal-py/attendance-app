@@ -1,6 +1,8 @@
 package com.dev.kbstudios.kbstudiosattendance;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -21,6 +24,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+
+import org.w3c.dom.Text;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,6 +86,15 @@ public class Main2Activity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main2, menu);
+
+        SharedPreferences session = getApplicationContext()
+                .getSharedPreferences("kbstudiosattendance.userdata", Context.MODE_PRIVATE);
+
+        TextView email = (TextView) findViewById(R.id.emailid);
+        TextView username = (TextView) findViewById(R.id.username);
+
+        email.setText(session.getString("email", "You are not signed in"));
+        username.setText(session.getString("username", "John Doe"));
         return true;
     }
 
