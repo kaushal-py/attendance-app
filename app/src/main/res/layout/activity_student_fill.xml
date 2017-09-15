@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dev.kbstudios.kbstudiosattendance.StudentFillActivity">
+
+
+    <ListView
+        android:id="@+id/student_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/add_student_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="Enter Student Name"
+        android:layout_above="@id/add_student"
+        />
+
+    <Button
+        android:id="@+id/add_student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/colorAccent"
+        android:text="Add Student"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:layout_above="@id/done_adding_students"
+        />
+
+    <Button
+        android:id="@+id/done_adding_students"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/colorPrimary"
+        android:text="Done Adding Students!"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

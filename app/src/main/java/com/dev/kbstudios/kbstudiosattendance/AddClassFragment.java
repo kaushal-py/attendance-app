@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,11 @@ public class AddClassFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         classname = (TextView) dialogClass.findViewById(R.id.classname);
                         Classroom classroom = new Classroom(classname.getText().toString());
-                        mDatabase.push().setValue(classroom);
+                        String classKey = mDatabase.push().getKey();
+                        mDatabase.child(classKey).setValue(classroom);
+                        Intent i = new Intent(getActivity(), StudentFillActivity.class);
+                        i.putExtra("classKey", classKey);
+                        startActivity(i);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
