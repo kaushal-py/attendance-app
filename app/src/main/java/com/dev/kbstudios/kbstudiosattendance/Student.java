@@ -12,7 +12,7 @@ public class Student {
 
     }
 
-    public Student(String email, String fullName, int role){
+    public Student(String fullName){
         this.fullName = fullName;
     }
 

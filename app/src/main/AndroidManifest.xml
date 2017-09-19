@@ -28,7 +28,11 @@
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StudentFillActivity"></activity>
+        <activity android:name=".StudentFillActivity" />
+        <activity
+            android:name=".AttendanceMenu"
+            android:label="@string/title_activity_attendance_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -33,6 +33,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.2.2'
     compile 'com.google.android.gms:play-services-auth:11.2.2'
     compile 'com.android.support:design:26.+'
+    compile 'com.android.support:cardview-v7:26.+'
     testCompile 'junit:junit:4.12'
 }
 

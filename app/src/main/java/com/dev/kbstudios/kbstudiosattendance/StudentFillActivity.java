@@ -1,5 +1,6 @@
 package com.dev.kbstudios.kbstudiosattendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +36,7 @@ public class StudentFillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_fill);
 
         String classKey = getIntent().getStringExtra("classKey");
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("class").child(classKey);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("class").child(classKey).child("students");
 
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, studentlist);
 
@@ -51,41 +52,54 @@ public class StudentFillActivity extends AppCompatActivity {
         listView.setAdapter(itemsAdapter);
 
         Button addStudentButton = (Button) findViewById(R.id.add_student);
-        final TextView addStudentText  = (TextView) findViewById(R.id.add_student_text);
+        final TextView addStudentText = (TextView) findViewById(R.id.add_student_text);
 
         Button doneAddingStudents = (Button) findViewById(R.id.done_adding_students);
 
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Classroom classroom = dataSnapshot.getValue(Classroom.class);
-                classroom.setKey(dataSnapshot.getKey());
-                itemsAdapter.add(classroom.getClassName());
+                Student student = dataSnapshot.getValue(Student.class);
+                // student.setKey(dataSnapshot.getKey());
+                itemsAdapter.add(student.getFullName());
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
 
         addStudentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String studentName = addStudentText.getText().toString();
-                if(studentName.length() == 0){
+                if (studentName.length() == 0) {
                     Toast.makeText(StudentFillActivity.this, "Empty Value", Toast.LENGTH_SHORT).show();
-                }
-                else{
-
+                } else {
+                    Student student = new Student(studentName);
+                    mDatabase.push().setValue(student);
+                    addStudentText.setText("");
                 }
             }
         });
+
+        doneAddingStudents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StudentFillActivity.this, Main2Activity.class));
+            }
+        });
+    }
 }

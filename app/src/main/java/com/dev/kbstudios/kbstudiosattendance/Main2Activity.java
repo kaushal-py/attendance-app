@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -43,8 +44,8 @@ public class Main2Activity extends AppCompatActivity
 
     private DatabaseReference mDatabase;
 
-    private ArrayList<String> classlist = new ArrayList<>();
-    private ArrayAdapter<String> itemsAdapter;
+    private ArrayList<Classroom> classlist = new ArrayList<>();
+    private ClassAdapter itemsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class Main2Activity extends AppCompatActivity
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("class");
 
-        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, classlist);
+        itemsAdapter = new ClassAdapter(this, 0, classlist);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -63,7 +64,7 @@ public class Main2Activity extends AppCompatActivity
                 .build();
         mGoogleApiClient.connect();
 
-        ListView listView = (ListView) findViewById(R.id.class_list);
+        final ListView listView = (ListView) findViewById(R.id.class_list);
         listView.setAdapter(itemsAdapter);
 
 
@@ -93,7 +94,7 @@ public class Main2Activity extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Classroom classroom = dataSnapshot.getValue(Classroom.class);
                 classroom.setKey(dataSnapshot.getKey());
-                itemsAdapter.add(classroom.getClassName());
+                itemsAdapter.add(classroom);
             }
 
             @Override
@@ -107,6 +108,33 @@ public class Main2Activity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Classroom classroom = (Classroom) adapterView.getItemAtPosition(i);
+//                String key = classroom.getKey();
+//                Intent intent = new Intent(Main2Activity.this, StudentFillActivity.class);
+//                intent.putExtra("classKey", key);
+//                startActivity(intent);
+
+                Intent intent = new Intent(Main2Activity.this, AttendanceMenu.class);
+                startActivity(intent);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Classroom classroom = (Classroom) adapterView.getItemAtPosition(i);
+                String key = classroom.getKey();
+                mDatabase.child(key).setValue(null);
+
+                classlist.remove(i);
+                itemsAdapter.notifyDataSetChanged();
+                return true;
+            }
         });
     }
 
