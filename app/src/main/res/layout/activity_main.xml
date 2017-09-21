@@ -14,7 +14,7 @@
         app:indicatorName="BallPulseIndicator"
         app:indicatorColor="@color/colorPrimary"
         android:layout_gravity="center"
-        />
+        />`
 
     <GridView
         android:id="@+id/gridView1"
@@ -27,6 +27,5 @@
         android:gravity="center"
         android:stretchMode="columnWidth"
         android:padding="4dp" />
-
 
 </LinearLayout>
