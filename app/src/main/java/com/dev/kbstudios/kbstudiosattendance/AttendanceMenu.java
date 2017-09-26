@@ -10,6 +10,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AttendanceMenu extends AppCompatActivity {
 
@@ -18,12 +28,23 @@ public class AttendanceMenu extends AppCompatActivity {
     private int year;
     private int month;
     private int day;
+
+    private DatabaseReference mDatabaseStudents;
+    private DatabaseReference mDatabaseAttendees;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mDatabaseStudents = FirebaseDatabase.getInstance().getReference().child("class");
+
+        mDatabaseAttendees = FirebaseDatabase.getInstance().getReference().child("attendees");
+
+        String classKey = getIntent().getStringExtra("classKey");
+        mDatabaseStudents = FirebaseDatabase.getInstance().getReference().child("class").child(classKey).child("students");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabTakeAttendance);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +55,22 @@ public class AttendanceMenu extends AppCompatActivity {
 
                 DialogFragment newFragment2 = new DatePickerFragment();
                 newFragment2.show(getFragmentManager(), "datePicker");
+
+                mDatabaseStudents.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            Student student = snapshot.getValue(Student.class);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
             }
         });
     }

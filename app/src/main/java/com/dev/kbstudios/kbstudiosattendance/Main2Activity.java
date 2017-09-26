@@ -113,13 +113,10 @@ public class Main2Activity extends AppCompatActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Classroom classroom = (Classroom) adapterView.getItemAtPosition(i);
-//                String key = classroom.getKey();
-//                Intent intent = new Intent(Main2Activity.this, StudentFillActivity.class);
-//                intent.putExtra("classKey", key);
-//                startActivity(intent);
-
+                Classroom classroom = (Classroom) adapterView.getItemAtPosition(i);
+                String key = classroom.getKey();
                 Intent intent = new Intent(Main2Activity.this, AttendanceMenu.class);
+                intent.putExtra("classKey", key);
                 startActivity(intent);
             }
         });

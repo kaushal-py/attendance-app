@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Attendee> studentAttendees = new ArrayList<>();
 
     private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseStudents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
