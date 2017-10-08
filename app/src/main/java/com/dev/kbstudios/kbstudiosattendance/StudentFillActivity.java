@@ -1,8 +1,11 @@
 package com.dev.kbstudios.kbstudiosattendance;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,7 +39,14 @@ public class StudentFillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_fill);
 
         String classKey = getIntent().getStringExtra("classKey");
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("class").child(classKey).child("students");
+
+        SharedPreferences sessionUser = getApplicationContext()
+                .getSharedPreferences("kbstudiosattendance.userdata", Context.MODE_PRIVATE);
+        String firebaseEmail = sessionUser.getString("user", null);
+
+        Log.d("Enter", "Enter into activity");
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(firebaseEmail).child("class").child(classKey).child("students");
 
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, studentlist);
 

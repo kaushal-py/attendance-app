@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -52,7 +51,11 @@ public class Main2Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("class");
+        SharedPreferences sessionUser = getApplicationContext()
+                .getSharedPreferences("kbstudiosattendance.userdata", Context.MODE_PRIVATE);
+        String firebaseEmail = sessionUser.getString("user", null);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(firebaseEmail).child("class");
 
         itemsAdapter = new ClassAdapter(this, 0, classlist);
 
@@ -158,6 +161,7 @@ public class Main2Activity extends AppCompatActivity
 
         email.setText(session.getString("email", "You are not signed in"));
         username.setText(session.getString("username", "John Doe"));
+
         return true;
     }
 

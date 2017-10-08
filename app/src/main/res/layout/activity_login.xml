@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,27 +12,59 @@
     android:background="@color/colorPrimaryLight"
     tools:context="com.dev.kbstudios.kbstudiosattendance.LoginActivity">
 
+    <ImageView
+        android:id="@+id/launcher_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/launcherimage" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome to KB Attendance App"
+        android:layout_below="@id/launcher_image"
         android:layout_gravity="center"
-        android:textColor="#fff"
+        android:fontFamily="casual"
+        android:paddingTop="5dp"
+        android:text="@string/loginMessage1"
         android:textAlignment="center"
-        android:textSize="50dp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:paddingTop="40dp"/>
+        android:textColor="@color/colorAccentLight"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView2"
+        android:layout_gravity="center"
+        android:fontFamily="casual"
+        android:text="@string/loginMessage2"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccentLight"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/loginMessage3"
+        android:layout_gravity="center"
+        android:textColor="@color/colorAccentLight"
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="20dp"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_alignParentBottom="true"
+        android:elevation="8dp"
+        android:layout_above="@id/textView4"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="10dp"/>
 
 </RelativeLayout>

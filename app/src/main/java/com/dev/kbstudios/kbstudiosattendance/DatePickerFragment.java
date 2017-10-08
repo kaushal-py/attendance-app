@@ -35,5 +35,6 @@ public class DatePickerFragment extends DialogFragment
         attendanceMenu.setYear(year);
         attendanceMenu.setMonth(month);
         attendanceMenu.setDay(day);
+        attendanceMenu.gotoTime();
     }
 }

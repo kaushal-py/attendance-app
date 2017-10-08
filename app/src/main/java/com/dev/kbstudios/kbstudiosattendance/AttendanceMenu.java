@@ -1,6 +1,9 @@
 package com.dev.kbstudios.kbstudiosattendance;
 
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -31,6 +34,10 @@ public class AttendanceMenu extends AppCompatActivity {
 
     private DatabaseReference mDatabaseStudents;
     private DatabaseReference mDatabaseAttendees;
+    private DatabaseReference mDatabaseAttendeesStudents;
+
+    String lectureKey;
+    String classKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,37 +46,60 @@ public class AttendanceMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mDatabaseStudents = FirebaseDatabase.getInstance().getReference().child("class");
+        SharedPreferences sessionUser = getApplicationContext()
+                .getSharedPreferences("kbstudiosattendance.userdata", Context.MODE_PRIVATE);
+        String firebaseEmail = sessionUser.getString("user", null);
 
-        mDatabaseAttendees = FirebaseDatabase.getInstance().getReference().child("attendees");
+        mDatabaseAttendees = FirebaseDatabase.getInstance().getReference().child(firebaseEmail).child("attendees");
 
-        String classKey = getIntent().getStringExtra("classKey");
-        mDatabaseStudents = FirebaseDatabase.getInstance().getReference().child("class").child(classKey).child("students");
+        classKey = getIntent().getStringExtra("classKey");
+        mDatabaseStudents = FirebaseDatabase.getInstance().getReference().child(firebaseEmail).child("class").child(classKey).child("students");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabTakeAttendance);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment1 = new TimePickerFragment();
-                newFragment1.show(getFragmentManager(), "timePicker");
 
                 DialogFragment newFragment2 = new DatePickerFragment();
                 newFragment2.show(getFragmentManager(), "datePicker");
 
-                mDatabaseStudents.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            Student student = snapshot.getValue(Student.class);
-                        }
-                    }
+            }
+        });
+    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+    public void gotoTime(){
+        DialogFragment newFragment1 = new TimePickerFragment();
+        newFragment1.show(getFragmentManager(), "timePicker");
+    }
 
-                    }
-                });
+    public void gotoAttendance(){
+        mDatabaseStudents.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Lecture lecture = new Lecture(classKey,
+                        getHourOfDay(),
+                        getMinute(),
+                        getYear(),
+                        getMonth(),
+                        getDay());
+                lectureKey = mDatabaseAttendees.push().getKey();
+                mDatabaseAttendees.child(lectureKey).setValue(lecture);
+                mDatabaseAttendeesStudents = mDatabaseAttendees.child(lectureKey).child("students");
+                int i = 1;
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Student student = snapshot.getValue(Student.class);
+                    Attendee attendee = new Attendee(i, student.getFullName(), 0);
+                    mDatabaseAttendeesStudents.push().setValue(attendee);
+                    i++;
+                }
 
+                Intent intent = new Intent(AttendanceMenu.this, MainActivity.class);
+                intent.putExtra("lectureKey", lectureKey);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

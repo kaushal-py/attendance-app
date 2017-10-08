@@ -8,6 +8,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -31,7 +33,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("attendee");
+        String lectureKey = getIntent().getStringExtra("lectureKey");
+
+        SharedPreferences sessionUser = getApplicationContext()
+                .getSharedPreferences("kbstudiosattendance.userdata", Context.MODE_PRIVATE);
+        String firebaseEmail = sessionUser.getString("user", null);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(firebaseEmail).child("attendees").child(lectureKey).child("students");
 
         final ArrayAdapter<Attendee> adapter = new AttendeeArrayAdapter(this, 0, studentAttendees);
         GridView gridView = (GridView) findViewById(R.id.gridView1);

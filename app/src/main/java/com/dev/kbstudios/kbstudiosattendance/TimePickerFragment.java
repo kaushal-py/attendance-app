@@ -35,5 +35,6 @@ public class TimePickerFragment extends DialogFragment
         AttendanceMenu attendanceMenu = (AttendanceMenu)getActivity();
         attendanceMenu.setHourOfDay(hourOfDay);
         attendanceMenu.setMinute(minute);
+        attendanceMenu.gotoAttendance();
     }
 }

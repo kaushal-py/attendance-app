@@ -12,7 +12,7 @@ public class Attendee {
     private String key;
 
     public Attendee(){
-        // Datasnapshop needs a constructor with no arguments
+        // Data snapshot needs a constructor with no arguments
     };
 
     public Attendee(int rollNo, String fullName, int status){
