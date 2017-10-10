@@ -113,16 +113,6 @@ public class Main2Activity extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {}
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Classroom classroom = (Classroom) adapterView.getItemAtPosition(i);
-                String key = classroom.getKey();
-                Intent intent = new Intent(Main2Activity.this, AttendanceMenu.class);
-                intent.putExtra("classKey", key);
-                startActivity(intent);
-            }
-        });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -134,6 +124,17 @@ public class Main2Activity extends AppCompatActivity
                 classlist.remove(i);
                 itemsAdapter.notifyDataSetChanged();
                 return true;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Classroom classroom = (Classroom) adapterView.getItemAtPosition(i);
+                String key = classroom.getKey();
+                Intent intent = new Intent(Main2Activity.this, AttendanceMenu.class);
+                intent.putExtra("classKey", key);
+                startActivity(intent);
             }
         });
     }
@@ -189,7 +190,7 @@ public class Main2Activity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            startActivity(new Intent(Main2Activity.this, MainActivity.class));
+
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

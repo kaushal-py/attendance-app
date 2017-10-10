@@ -130,19 +130,19 @@ public class LoginActivity extends AppCompatActivity  {
 
                     mLoginReference = FirebaseDatabase.getInstance().getReference().child(firebaseEmail);
 
-                    mLoginReference.addValueEventListener(new ValueEventListener() {
+                    mLoginReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if(dataSnapshot.exists()){
                                 finish();
-                                Intent i = new Intent(LoginActivity.this, Main2Activity.class);
-                                startActivity(i);
+                                Intent i1 = new Intent(LoginActivity.this, Main2Activity.class);
+                                startActivity(i1);
                             }
                             else{
                                 Toast.makeText(LoginActivity.this, "Not authenticated", Toast.LENGTH_SHORT).show();
                                 finish();
-                                Intent i = new Intent(LoginActivity.this, Main2Activity.class);
-                                startActivity(i);
+                                Intent i2 = new Intent(LoginActivity.this, FirstTimeLogin.class);
+                                startActivity(i2);
                             }
                         }
 
