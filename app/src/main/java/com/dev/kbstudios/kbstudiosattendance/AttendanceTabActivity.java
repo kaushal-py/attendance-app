@@ -51,15 +51,13 @@ public class AttendanceTabActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
+                    break;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
+                    break;
                 case R.id.navigation_new:
                     DialogFragment newFragment2 = new DatePickerFragment();
                     newFragment2.show(getFragmentManager(), "datePicker");
-                    return true;
+                    break;
             }
             return false;
         }
@@ -79,6 +77,7 @@ public class AttendanceTabActivity extends AppCompatActivity {
         mDatabaseAttendees = FirebaseDatabase.getInstance().getReference().child(firebaseEmail).child("attendees");
 
         classKey = getIntent().getStringExtra("classKey");
+        setTitle(getIntent().getStringExtra("className"));
         mDatabaseStudents = FirebaseDatabase.getInstance().getReference().child(firebaseEmail).child("class").child(classKey).child("students");
 
         final ArrayAdapter<Lecture> adapter = new LectureAdapter(this, 0, lectures);

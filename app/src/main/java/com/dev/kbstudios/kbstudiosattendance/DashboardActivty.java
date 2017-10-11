@@ -131,6 +131,7 @@ public class DashboardActivty extends AppCompatActivity
                 String key = classroom.getKey();
                 Intent intent = new Intent(DashboardActivty.this, AttendanceTabActivity.class);
                 intent.putExtra("classKey", key);
+                intent.putExtra("className", classroom.getClassName());
                 startActivity(intent);
             }
         });
@@ -183,16 +184,7 @@ public class DashboardActivty extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
+        if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_send) {
             FirebaseAuth.getInstance().signOut();
