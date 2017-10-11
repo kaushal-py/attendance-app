@@ -26,4 +26,8 @@
     <string name="loginMessage1">Hi there !</string>
     <string name="loginMessage2">Welcome to\nClassKit</string>
     <string name="loginMessage3">Please login using your Google account before you continue!</string>
+    <string name="title_activity_attendance_tab">AttendanceTabActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

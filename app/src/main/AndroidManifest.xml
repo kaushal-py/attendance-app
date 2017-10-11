@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".AttendanceActivity"
+            android:label="Attendance" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
@@ -27,8 +29,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
+            android:name=".DashboardActivty"
+            android:label="Dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".StudentFillActivity" />
         <activity
@@ -36,7 +38,10 @@
             android:label="@string/title_activity_attendance_menu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddClass" />
-        <activity android:name=".FirstTimeLogin"></activity>
+        <activity android:name=".FirstTimeLogin" />
+        <activity
+            android:name=".AttendanceTabActivity"
+            android:label="@string/title_activity_attendance_tab"></activity>
     </application>
 
 </manifest>

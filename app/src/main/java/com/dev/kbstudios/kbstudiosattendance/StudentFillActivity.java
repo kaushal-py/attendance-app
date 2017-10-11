@@ -108,7 +108,7 @@ public class StudentFillActivity extends AppCompatActivity {
         doneAddingStudents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(StudentFillActivity.this, Main2Activity.class));
+                startActivity(new Intent(StudentFillActivity.this, DashboardActivty.class));
             }
         });
     }

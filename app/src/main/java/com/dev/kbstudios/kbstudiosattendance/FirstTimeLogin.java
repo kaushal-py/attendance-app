@@ -48,7 +48,7 @@ public class FirstTimeLogin extends AppCompatActivity {
                 }
                 else{
                     finish();
-                    Intent i1 = new Intent(FirstTimeLogin.this, Main2Activity.class);
+                    Intent i1 = new Intent(FirstTimeLogin.this, DashboardActivty.class);
                     startActivity(i1);
                 }
             }

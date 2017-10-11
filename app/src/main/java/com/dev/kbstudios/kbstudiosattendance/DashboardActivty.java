@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,8 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,7 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 
-public class Main2Activity extends AppCompatActivity
+public class DashboardActivty extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private GoogleApiClient mGoogleApiClient;
@@ -132,7 +129,7 @@ public class Main2Activity extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Classroom classroom = (Classroom) adapterView.getItemAtPosition(i);
                 String key = classroom.getKey();
-                Intent intent = new Intent(Main2Activity.this, AttendanceMenu.class);
+                Intent intent = new Intent(DashboardActivty.this, AttendanceTabActivity.class);
                 intent.putExtra("classKey", key);
                 startActivity(intent);
             }
@@ -204,7 +201,7 @@ public class Main2Activity extends AppCompatActivity
                         @Override
                         public void onResult(Status status) {
                             finish();
-                            startActivity(new Intent(Main2Activity.this, LoginActivity.class));
+                            startActivity(new Intent(DashboardActivty.this, LoginActivity.class));
                         }
                     });
 

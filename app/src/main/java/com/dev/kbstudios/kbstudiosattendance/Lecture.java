@@ -12,9 +12,20 @@ public class Lecture {
     private int year;
     private int month;
     private int day;
+    private String lectureKey;
 
     public Lecture(){
         // Data snapshot needs a constructor with no arguments
+    }
+
+    public Lecture(String classKey, int hourOfDay, int minute, int year, int month, int day, String lectureKey){
+        this.setClassKey(classKey);
+        this.setHourOfDay(hourOfDay);
+        this.setMinute(minute);
+        this.setYear(year);
+        this.setMonth(month);
+        this.setDay(day);
+        this.setLectureKey(lectureKey);
     }
 
     public Lecture(String classKey, int hourOfDay, int minute, int year, int month, int day){
@@ -73,4 +84,8 @@ public class Lecture {
     public void setDay(int day) {
         this.day = day;
     }
+
+    public String getLectureKey() { return lectureKey; }
+
+    public void setLectureKey(String lectureKey) { this.lectureKey = lectureKey; }
 }

@@ -21,7 +21,7 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class AttendanceActivity extends AppCompatActivity {
 
     private ArrayList<Attendee> studentAttendees = new ArrayList<>();
 

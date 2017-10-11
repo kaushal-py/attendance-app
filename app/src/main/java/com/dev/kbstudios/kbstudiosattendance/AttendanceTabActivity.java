@@ -5,18 +5,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class AttendanceMenu extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class AttendanceTabActivity extends AppCompatActivity {
+
+    private TextView mTextMessage;
+
+    private ArrayList<Lecture> lectures = new ArrayList<>();
 
     private int hourOfDay;
     private int minute;
@@ -31,12 +44,33 @@ public class AttendanceMenu extends AppCompatActivity {
     String lectureKey;
     String classKey;
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+                    return true;
+                case R.id.navigation_dashboard:
+                    mTextMessage.setText(R.string.title_dashboard);
+                    return true;
+                case R.id.navigation_new:
+                    DialogFragment newFragment2 = new DatePickerFragment();
+                    newFragment2.show(getFragmentManager(), "datePicker");
+                    return true;
+            }
+            return false;
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendance_menu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_attendance_tab);
+
 
         SharedPreferences sessionUser = getApplicationContext()
                 .getSharedPreferences("kbstudiosattendance.userdata", Context.MODE_PRIVATE);
@@ -47,22 +81,52 @@ public class AttendanceMenu extends AppCompatActivity {
         classKey = getIntent().getStringExtra("classKey");
         mDatabaseStudents = FirebaseDatabase.getInstance().getReference().child(firebaseEmail).child("class").child(classKey).child("students");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabTakeAttendance);
-        fab.setOnClickListener(new View.OnClickListener() {
+        final ArrayAdapter<Lecture> adapter = new LectureAdapter(this, 0, lectures);
+        ListView listView = (ListView) findViewById(R.id.listview_attendance);
+        listView.setAdapter(adapter);
+
+        mDatabaseAttendees.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onClick(View view) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Lecture lecture = dataSnapshot.getValue(Lecture.class);
+                lecture.setLectureKey(dataSnapshot.getKey());
+                adapter.add(lecture);
+            }
 
-                DialogFragment newFragment2 = new DatePickerFragment();
-                newFragment2.show(getFragmentManager(), "datePicker");
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
 
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Lecture lecture = (Lecture) adapterView.getItemAtPosition(i);
+                String key = lecture.getLectureKey();
+                Intent intent = new Intent(AttendanceTabActivity.this, AttendanceActivity.class);
+                intent.putExtra("lectureKey", key);
+                startActivity(intent);
             }
         });
+
+        mTextMessage = (TextView) findViewById(R.id.message);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     public void gotoTime(){
         DialogFragment newFragment1 = new TimePickerFragment();
         newFragment1.show(getFragmentManager(), "timePicker");
     }
+
 
     public void gotoAttendance(){
         mDatabaseStudents.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -85,7 +149,7 @@ public class AttendanceMenu extends AppCompatActivity {
                     i++;
                 }
 
-                Intent intent = new Intent(AttendanceMenu.this, AttendanceActivity.class);
+                Intent intent = new Intent(AttendanceTabActivity.this, AttendanceActivity.class);
                 intent.putExtra("lectureKey", lectureKey);
                 startActivity(intent);
             }
@@ -136,4 +200,5 @@ public class AttendanceMenu extends AppCompatActivity {
     public void setDay(int day) {
         this.day = day;
     }
+
 }
